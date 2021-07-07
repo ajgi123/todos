@@ -1,0 +1,2 @@
+(this.webpackJsonptodos=this.webpackJsonptodos||[]).push([[0],{10:function(t,e,n){"use strict";n.r(e);n(1);var o=n(3),c=n.n(o),s=(n(8),n(0));var r=function(){return Object(s.jsx)("div",{children:Object(s.jsx)("h1",{children:"Todo"})})};c.a.render(Object(s.jsx)(r,{}),document.getElementById("root"))},8:function(t,e,n){}},[[10,1,2]]]);
+//# sourceMappingURL=main.32ef4ab2.chunk.js.map
