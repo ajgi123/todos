@@ -1,0 +1,2 @@
+(this.webpackJsonptodos=this.webpackJsonptodos||[]).push([[4],{401:function(t,a,e){"use strict";e.r(a);var s=e(172),c=e(122),n=e(3);a.default=function(){var t=Object(c.a)();return Object(n.jsxs)("div",{className:t.fullpage,children:[Object(n.jsx)(s.a,{variant:"h2",children:"Page Not Found"}),Object(n.jsx)(s.a,{variant:"h1",children:"404"})]})}}}]);
+//# sourceMappingURL=4.d8a8e02b.chunk.js.map
