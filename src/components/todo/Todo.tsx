@@ -16,6 +16,18 @@ import React, { ChangeEvent, SyntheticEvent, useState } from "react";
 import usePropsRelatedState from "../../hooks/usePropsRelatedState";
 import { UpdateAddArgsType } from "../../hooks/useTodos";
 
+type TodoPropsType = {
+  id: number;
+  title: string;
+  done: boolean;
+  localId: string;
+  removeTodo: ({ localId, id }: { localId: string; id: number }) => void;
+  isLoadingRemove: boolean;
+  updateTodo: ({ localId, todo }: UpdateAddArgsType) => void;
+  isLoadingUpdate: boolean;
+  isMutating: boolean;
+};
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -42,18 +54,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-type TodoPropsType = {
-  id: number;
-  title: string;
-  done: boolean;
-  localId: string;
-  removeTodo: ({ localId, id }: { localId: string; id: number }) => void;
-  isLoadingRemove: boolean;
-  updateTodo: ({ localId, todo }: UpdateAddArgsType) => void;
-  isLoadingUpdate: boolean;
-  isMutating: boolean;
-};
 
 const Todo = (props: TodoPropsType) => {
   const [isEditing, setIsEditing] = useState(false);
