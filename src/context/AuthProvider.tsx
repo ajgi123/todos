@@ -11,6 +11,43 @@ import { tryCatch } from "../helpers/asyncHelpers";
 import { localStorageService } from "../helpers/localStorageService";
 import useAsync, { Status } from "../hooks/useAsync";
 
+interface RefreshTokenResponse {
+  access_token: string;
+  expires_in: number;
+  id_token: string;
+  project_id: string;
+  refresh_token: string;
+  token_type: string;
+  user_id: string;
+}
+
+interface User {
+  idToken: string;
+  email: string;
+  refreshToken: string;
+  expiresIn: number;
+  localId: string;
+  displayName: string;
+  kind: string;
+  registered: boolean;
+}
+
+type AuthProviderStateType = User | null;
+
+type AuthContextType = {
+  error: string | null;
+  status: Status;
+  userData: AuthProviderStateType;
+  signUpUser: (email: string, password: string, displayName: string) => void;
+  loginUser: (email: string, password: string) => void;
+  logOutUser: () => void;
+  addTokenToHeader: (config: AxiosRequestConfig) => AxiosRequestConfig;
+  refreshTokenOn401: (error: AxiosError) => void;
+  isAuthenticated: boolean;
+};
+
+type AuthProviderPropsType = { children: ReactNode };
+
 export const REFRESH_TOKEN_LOCAL_STORAGE = "refreshToken";
 
 const signUpLoginInstance = axios.create({
@@ -50,16 +87,6 @@ const signUp = (email: string, password: string, displayName: string) => {
     .catch((err) => Promise.reject(err.message));
 };
 
-interface RefreshTokenResponse {
-  access_token: string;
-  expires_in: number;
-  id_token: string;
-  project_id: string;
-  refresh_token: string;
-  token_type: string;
-  user_id: string;
-}
-
 const refreshToken = (refreshToken: string): Promise<RefreshTokenResponse> => {
   return axios
     .post(
@@ -71,37 +98,7 @@ const refreshToken = (refreshToken: string): Promise<RefreshTokenResponse> => {
     .catch((err) => Promise.reject(err));
 };
 
-interface User {
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: number;
-  localId: string;
-  displayName: string;
-  kind: string;
-  registered: boolean;
-}
-
-type unionType = User | null;
-
-type AuthContextType = {
-  error: string | null;
-  status: Status;
-  userData: unionType;
-  signUpUser: (email: string, password: string, displayName: string) => void;
-  loginUser: (email: string, password: string) => void;
-  logOutUser: () => void;
-  addTokenToHeader: (config: AxiosRequestConfig) => AxiosRequestConfig;
-  refreshTokenOn401: (error: AxiosError) => void;
-  isAuthenticated: boolean;
-};
-
 const AuthContext = createContext<undefined | AuthContextType>(undefined);
-
-let initialState: unionType;
-initialState = null;
-
-type AuthProviderPropsType = { children: ReactNode };
 
 export const AuthProvider = ({ children }: AuthProviderPropsType) => {
   const {
@@ -111,7 +108,7 @@ export const AuthProvider = ({ children }: AuthProviderPropsType) => {
     runAsync,
     setState,
     setError,
-  } = useAsync(initialState);
+  } = useAsync<AuthProviderStateType>(null);
   let history = useHistory();
 
   useEffect(() => {
