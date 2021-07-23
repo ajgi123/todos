@@ -7,6 +7,13 @@ import * as yup from "yup";
 import { UpdateAddArgsType } from "../../hooks/useTodos";
 import { FormTextField } from "../form-text-field/FormTextField";
 
+interface AddTodoPropsType {
+  addTodo: ({ localId, todo }: UpdateAddArgsType) => void;
+  localId: string;
+  isLoadingAdd: boolean;
+  initialValue?: string;
+}
+
 const validationSchema = yup.object({
   todo: yup
     .string()
@@ -14,13 +21,6 @@ const validationSchema = yup.object({
     .min(3, "Todo must be at least 3 characters")
     .max(35, "Todo must be not longer than 35 characters"),
 });
-
-interface AddTodoPropsType {
-  addTodo: ({ localId, todo }: UpdateAddArgsType) => void;
-  localId: string;
-  isLoadingAdd: boolean;
-  initialValue?: string;
-}
 
 const AddTodo = ({
   addTodo,
