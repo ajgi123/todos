@@ -11,6 +11,11 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthProvider";
 
+type NavbarPropsType = {
+  isDarkMode: boolean;
+  toggleHandler: () => void;
+};
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grow: {
@@ -27,11 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-type NavbarPropsType = {
-  isDarkMode: boolean;
-  toggleHandler: () => void;
-};
 
 export default function Navbar(props: NavbarPropsType) {
   const classes = useStyles();
